@@ -11,7 +11,13 @@ class ReadItem extends StatelessWidget {
 
   final int excerptLimit;
 
-  ReadItem({Key key, @required this.title, @required this.category, @required this.content, this.imageUrl = "https://placeimg.com/640/480/any", this.excerptLimit = 50, this.onTap}) : super(key: key);
+  ReadItem({Key key,
+    @required this.title,
+    @required this.category,
+    @required this.content,
+    this.imageUrl = "https://placeimg.com/640/480/any",
+    this.excerptLimit = 50,
+    this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kureta_app/components/appbars.dart';
 import 'package:kureta_app/components/reads.dart';
+import 'package:kureta_app/data_sources/mocks.dart';
 import 'screens.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -27,13 +28,16 @@ class _HomeScreen extends State<HomeScreen> {
             padding: const EdgeInsets.fromLTRB(25,10,25,10),
             child: Column(
               children: <Widget>[
-                ...[1,2,3,4,5,6].map((i){
+                ...articleMocks.map((article){
                   return ReadItem(
-                    title: "Some title ${i.toString()}",
-                    category: "Some category",
-                    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse congue lectus non tellus tincidunt, bibendum convallis lorem mattis.",
+                    title: article.title,
+                    category: article.category,
+                    content: article.excerpt,
                     onTap: (){
-                      print("News ${i.toString()} Tapped!");
+                      var readScreen = ReadScreen(title: article.title, content: article.content, imageUrl: article.imageUrl);
+                      Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => readScreen),
+                      );
                     },
                   );
                 }).toList(),
