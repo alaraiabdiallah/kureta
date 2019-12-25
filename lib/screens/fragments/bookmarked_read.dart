@@ -25,7 +25,7 @@ class _BookmarkedRead extends State<BookmarkedRead> {
                   category: article.category,
                   content: article.excerpt,
                   onTap: (){
-                    var readScreen = ReadScreen(title: article.title, content: article.content, imageUrl: article.imageUrl);
+                    var readScreen = ReadScreen(title: article.title, content: article.content, category: article.category, imageUrl: article.imageUrl);
                     Navigator.push(context,
                       MaterialPageRoute(builder: (context) => readScreen),
                     );

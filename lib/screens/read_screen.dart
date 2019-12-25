@@ -4,9 +4,10 @@ class ReadScreen extends StatefulWidget {
 
   final String title;
   final String content;
+  final String category;
   final String imageUrl;
 
-  const ReadScreen({Key key, @required this.title, @required this.content, this.imageUrl = 'https://placeimg.com/640/480/any'}) : super(key: key);
+  const ReadScreen({Key key, @required this.title, @required this.content, @required this.category, this.imageUrl = 'https://placeimg.com/640/480/any'}) : super(key: key);
 
   @override
   _ReadScreen createState() => _ReadScreen();
@@ -55,7 +56,7 @@ class _ReadScreen extends State<ReadScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text("category", style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.black.withOpacity(0.8)),),
+                      Text(widget.category, style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.black.withOpacity(0.8)),),
                       SizedBox(height: 4,),
                       Text(widget.title, style: Theme.of(context).textTheme.title.copyWith(color: Colors.black,fontSize: 25),),
                     ],
