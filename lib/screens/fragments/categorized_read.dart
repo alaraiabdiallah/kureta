@@ -12,31 +12,83 @@ class CategorizedRead extends StatefulWidget {
 class _CategorizedRead extends State<CategorizedRead> {
   @override
   Widget build(BuildContext context) {
+
     return ListView(
       children: <Widget>[
-        Padding(
+        ReadCarousel(
+            articles: articleMocks,
+            onItemTap: (item){
+              var readScreen = ReadScreen(title: item.title, content: item.content, category: item.category, imageUrl: item.imageUrl);
+              Navigator.push(context,
+                MaterialPageRoute(builder: (context) => readScreen),
+              );
+            }
+        ),
+        Container(
           padding: const EdgeInsets.fromLTRB(25,10,25,10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text("For you", style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold)),
-              SizedBox(height: 15,),
-              ...articleMocks.map((article){
-                return ReadItem(
-                  title: article.title,
-                  category: article.category,
-                  content: article.excerpt,
-                  onTap: (){
-                    var readScreen = ReadScreen(title: article.title, content: article.content, category: article.category, imageUrl: article.imageUrl);
-                    Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => readScreen),
-                    );
-                  },
-                );
-              }).toList(),
+              Text("Technology", style: Theme.of(context).textTheme.title),
+              Container(
+                height: 250,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: <Widget>[
+                    Wrap(
+                      direction: Axis.vertical,
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: <Widget>[
+                        ...articleMocks2.map((article){
+                          return ReadListItem(
+                            title: article.title,
+                            category: null,
+                            onTap: (){
+                              var readScreen = ReadScreen(title: article.title, content: article.content, category: article.category, imageUrl: article.imageUrl);
+                              Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => readScreen),
+                              );
+                            },
+                          );
+                        }).toList()
+                      ],
+                    )
+                  ],
+                ),
+              ),
+              Text("Traveling", style: Theme.of(context).textTheme.title),
+              Container(
+                height: 250,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: <Widget>[
+                    Wrap(
+                      direction: Axis.vertical,
+                      spacing: 10,
+                      runSpacing: 10,
+                      children: <Widget>[
+                        ...articleMocks2.map((article){
+                          return ReadListItem(
+                            title: article.title,
+                            category: null,
+                            onTap: (){
+                              var readScreen = ReadScreen(title: article.title, content: article.content, category: article.category, imageUrl: article.imageUrl);
+                              Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => readScreen),
+                              );
+                            },
+                          );
+                        }).toList()
+                      ],
+                    )
+                  ],
+                ),
+              )
             ],
           ),
         )
+//
 
       ],
     );

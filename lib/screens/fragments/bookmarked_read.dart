@@ -20,10 +20,9 @@ class _BookmarkedRead extends State<BookmarkedRead> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               ...articleMocks.map((article){
-                return ReadItem(
+                return ReadListItem(
                   title: article.title,
                   category: article.category,
-                  content: article.excerpt,
                   onTap: (){
                     var readScreen = ReadScreen(title: article.title, content: article.content, category: article.category, imageUrl: article.imageUrl);
                     Navigator.push(context,
