@@ -14,15 +14,33 @@ class ReadScreen extends StatefulWidget {
 
 class _ReadScreen extends State<ReadScreen> {
 
+  ScrollController _scrollController = new ScrollController();
+  Widget _titleAppbar;
+
+  final double _expandedHeight = 225;
+
+  _scrollListener(){
+    setState(() =>
+      _titleAppbar = _scrollController.offset > (_expandedHeight - 25) ? Text(widget.title): null
+    );
+
+  }
+
+  @override
+  void initState() {
+    _scrollController.addListener(_scrollListener);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
+        controller: _scrollController,
         slivers: <Widget>[
           SliverAppBar(
-            title: Text(widget.title),
-            expandedHeight: 200.0,
-          floating: true,
+            title: _titleAppbar,
+            expandedHeight: _expandedHeight,
             pinned: true,
             primary: true,
             flexibleSpace: FlexibleSpaceBar(
@@ -32,6 +50,17 @@ class _ReadScreen extends State<ReadScreen> {
           SliverList(
             delegate: SliverChildListDelegate(
               [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20,30,20,5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text("category", style: Theme.of(context).textTheme.subtitle.copyWith(color: Colors.black.withOpacity(0.8)),),
+                      SizedBox(height: 4,),
+                      Text(widget.title, style: Theme.of(context).textTheme.title.copyWith(color: Colors.black,fontSize: 25),),
+                    ],
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20,10,20,10),
                   child: Text(widget.content, style: TextStyle(fontSize: 18),),
