@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kureta_app/components/appbars.dart';
 import 'package:kureta_app/screens/fragments/categorized_read.dart';
 import 'package:kureta_app/screens/fragments/bookmarked_read.dart';
+import 'package:kureta_app/screens/fragments/explore_read.dart';
 import 'package:kureta_app/screens/fragments/setting.dart';
 import 'screens.dart';
 
@@ -13,7 +14,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreen extends State<HomeScreen> {
   int _currentIndex = 0;
-  List<String> titles = ["Reads", "Bookmark", "Setting"];
+  List<String> titles = ["For you", "Explore", "Bookmark", "Setting"];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,17 +24,18 @@ class _HomeScreen extends State<HomeScreen> {
         index: _currentIndex,
         children: <Widget>[
           CategorizedRead(),
+          ExploreRead(),
           BookmarkedRead(),
           Setting()
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
+        unselectedItemColor: Colors.black38,
+        selectedItemColor: Color(0xff3498D8),
         currentIndex: _currentIndex,
         onTap: (index){
-          if(index == 2)
+          if(index == 3)
             Navigator.push(context,
               MaterialPageRoute(builder: (context) => LoginScreen()),
             );
@@ -42,7 +44,11 @@ class _HomeScreen extends State<HomeScreen> {
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.import_contacts),
-            title: Text("Reads")
+            title: Text("For you")
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.explore),
+              title: Text("Explore")
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.bookmark),

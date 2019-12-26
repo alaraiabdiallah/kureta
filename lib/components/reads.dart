@@ -138,7 +138,7 @@ class ReadListItem extends StatelessWidget {
                   margin: EdgeInsets.fromLTRB(0,15,10,0),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.red,
+                      color: Color(0xff3498D8),
                       image: DecorationImage(
                           image: NetworkImage(imageUrl),
                           fit: BoxFit.cover
@@ -211,6 +211,7 @@ class _ReadCarousel extends State<ReadCarousel>{
           return ReadCarouselItem(
             title: widget.articles[index].title,
             category: widget.articles[index].category,
+            imageUrl: widget.articles[index].imageUrl,
             active: index == _currentPage,
             onTap: () {
               widget.onItemTap(widget.articles[index]);
@@ -227,9 +228,10 @@ class ReadCarouselItem extends StatelessWidget {
   final String title;
   final bool active;
   final String category;
+  final String imageUrl;
   final Function onTap;
 
-  const ReadCarouselItem({Key key, this.title, this.category, this.active, this.onTap}) : super(key: key);
+  const ReadCarouselItem({Key key, this.title, this.category, this.imageUrl = 'https://placeimg.com/640/480/any', this.active, this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -239,7 +241,7 @@ class ReadCarouselItem extends StatelessWidget {
         curve: Curves.easeOutQuint,
         decoration: BoxDecoration(
             image: DecorationImage(
-              image: NetworkImage('https://placeimg.com/640/480/any'),
+              image: NetworkImage(imageUrl),
               fit: BoxFit.cover
             ),
             color: Color(0xff3498D8),
