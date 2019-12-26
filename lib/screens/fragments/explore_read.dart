@@ -18,6 +18,9 @@ class _ExploreRead extends State<ExploreRead> {
     return GestureDetector(
       onTap: onTap,
       child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8)
+        ),
         child: AnimatedContainer(
           padding: EdgeInsets.fromLTRB(15,8,15,8),
           duration: Duration(milliseconds: 100),
