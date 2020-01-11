@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kureta_app/components/reads.dart';
-import 'package:kureta_app/data_sources/firebase_service.dart';
 import 'package:kureta_app/data_sources/mocks.dart';
 import 'package:kureta_app/models/article.dart';
 import '../screens.dart';
@@ -13,7 +12,6 @@ class CategorizedRead extends StatefulWidget {
 }
 
 class _CategorizedRead extends State<CategorizedRead> {
-
 
   @override
   void initState() {
