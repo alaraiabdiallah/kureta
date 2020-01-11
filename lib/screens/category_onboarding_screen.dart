@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kureta_app/components/buttons.dart';
 import 'package:kureta_app/components/category_selector.dart';
+import 'package:kureta_app/data_sources/mocks.dart';
 import 'screens.dart';
 
 class CategoryOnboardingScreen extends StatefulWidget {
@@ -10,13 +11,11 @@ class CategoryOnboardingScreen extends StatefulWidget {
 }
 
 class _CategoryOnboardingScreen extends State<CategoryOnboardingScreen> {
-  final emailTextCtrl = TextEditingController();
-  final passwordTextCtrl = TextEditingController();
-  final categories = ["Technology", "Traveling", "Culinary", "Politics"];
-  List<String> selectedCategories;
+  final _categories = categoriesMock;
+  List<String> _selectedCategories;
 
   onNextButtonPressed(){
-   print(selectedCategories);
+   print(_selectedCategories);
    Navigator.push(
      context,
      MaterialPageRoute(builder: (context) => HomeScreen()),
@@ -24,12 +23,7 @@ class _CategoryOnboardingScreen extends State<CategoryOnboardingScreen> {
   }
 
   onCategorySelected(selectedData) {
-    setState(() => selectedCategories = selectedData);
-  }
-
-  onLoginButtonPressed(){
-    print(this.emailTextCtrl.text);
-    print(this.passwordTextCtrl.text);
+    setState(() => _selectedCategories = selectedData);
   }
 
   @override
@@ -52,7 +46,7 @@ class _CategoryOnboardingScreen extends State<CategoryOnboardingScreen> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: CategorySelector(categories: categories, onSelected: onCategorySelected),
+                  child: CategorySelector(categories: _categories, onSelected: onCategorySelected),
                 )
               ],
             ),

@@ -12,7 +12,7 @@ class ExploreRead extends StatefulWidget {
 
 class _ExploreRead extends State<ExploreRead> {
 
-  int _selected;
+  String _selected;
 
   Widget _selectorItem({String title,String imageUrl = 'https://placeimg.com/640/480/any',bool active = false, Function onTap}){
     return GestureDetector(
@@ -44,12 +44,12 @@ class _ExploreRead extends State<ExploreRead> {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.fromLTRB(15,0,15,0),
         children: <Widget>[
-          ...List.generate(10, (index){
+          ...categoriesMock.map((category){
             return _selectorItem(
-                title: "Category ${(index + 1).toString()}",
-                active: _selected == index,
+                title: category,
+                active: _selected == category,
                 onTap: (){
-                  setState(() => _selected = index);
+                  setState(() => _selected = category);
                 }
             );
           })

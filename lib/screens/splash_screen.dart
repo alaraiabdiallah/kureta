@@ -10,11 +10,11 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreen extends State<SplashScreen> {
-  Timer timer;
+  Timer _timer;
 
   @override
   void initState() {
-    timer = new Timer(Duration(seconds: 2), (){
+    _timer = new Timer(Duration(seconds: 2), (){
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => CategoryOnboardingScreen()));
     });
     super.initState();
@@ -22,7 +22,7 @@ class _SplashScreen extends State<SplashScreen> {
 
   @override
   void dispose() {
-    timer.cancel();
+    _timer.cancel();
     super.dispose();
   }
 

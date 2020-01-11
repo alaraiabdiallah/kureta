@@ -10,12 +10,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreen extends State<LoginScreen> {
-  final emailTextCtrl = TextEditingController();
-  final passwordTextCtrl = TextEditingController();
+  final _emailTextCtrl = TextEditingController();
+  final _passwordTextCtrl = TextEditingController();
 
   onLoginButtonPressed(){
-    print(this.emailTextCtrl.text);
-    print(this.passwordTextCtrl.text);
+    print(this._emailTextCtrl.text);
+    print(this._passwordTextCtrl.text);
   }
 
   @override
@@ -29,8 +29,8 @@ class _LoginScreen extends State<LoginScreen> {
             SizedBox(height: 75,),
             Image.asset("assets/images/kureta-logo-long-resized.png",),
             SizedBox(height: 25,),
-            KuretaTextField(title: "E-Mail Address", controller: this.emailTextCtrl),
-            KuretaTextField(title: "Password", obscureText: true,controller: this.passwordTextCtrl),
+            KuretaTextField(title: "E-Mail Address", controller: this._emailTextCtrl),
+            KuretaTextField(title: "Password", obscureText: true,controller: this._passwordTextCtrl),
             SizedBox(height: 10,),
             KuretaButton(text: "SIGN IN",onPressed: onLoginButtonPressed),
             SizedBox(height: 20,),

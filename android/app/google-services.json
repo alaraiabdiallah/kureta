@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1062286731065",
+    "firebase_url": "https://kureta-app.firebaseio.com",
+    "project_id": "kureta-app",
+    "storage_bucket": "kureta-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1062286731065:android:50a63a89be76e16ebcaae8",
+        "android_client_info": {
+          "package_name": "me.alarai.kureta_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1062286731065-qp2qfidbfheua8tcgk6j2t5h8s8vjobe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfZhxE7ulT383imKQ7K7iv0WuGWl_bwDE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1062286731065-qp2qfidbfheua8tcgk6j2t5h8s8vjobe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
