@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kureta_app/components/reads.dart';
+import 'package:kureta_app/data_sources/local_db.dart';
 import 'package:kureta_app/data_sources/mocks.dart';
 import 'package:kureta_app/models/article.dart';
 import '../screens.dart';
@@ -18,8 +19,6 @@ class _CategorizedRead extends State<CategorizedRead> {
     super.initState();
   }
 
-
-  
   @override
   Widget build(BuildContext context) {
 
@@ -86,7 +85,7 @@ class _CategorizedRead extends State<CategorizedRead> {
       );
     }
 
-    _buildCategoryArticleList(){
+    _buildCategoryArticleList(List categories){
       return StreamBuilder(
           stream: Firestore.instance.collection('articles').snapshots(),
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
@@ -101,7 +100,7 @@ class _CategorizedRead extends State<CategorizedRead> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      ...categoriesMock.map((category){
+                      ...categories.map((category){
                         List<Article> catCategory = articles.where((a) => a.category == category).toList();
                         if(catCategory.length < 1) return Container();
                         return _buildCategoryArticleItem(category, catCategory);
@@ -118,7 +117,16 @@ class _CategorizedRead extends State<CategorizedRead> {
     return ListView(
       children: <Widget>[
         _buildHeadlineArticle(),
-        _buildCategoryArticleList()
+        FutureBuilder(
+            future: SavedCategorySource().getAll(),
+            builder: (context, AsyncSnapshot snapshot){
+              if(snapshot.connectionState == ConnectionState.waiting)
+                return Center(child: CircularProgressIndicator());
+              if(!snapshot.hasData || snapshot.data.length < 1) return Center(child: Text("Tidak dapat memuat artikel"),);
+              return _buildCategoryArticleList(snapshot.data);
+            }
+        )
+
       ],
     );
   }

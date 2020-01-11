@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:kureta_app/components/buttons.dart';
-import 'package:kureta_app/components/reads.dart';
-import 'package:kureta_app/data_sources/mocks.dart';
 import '../screens.dart';
 
 class Setting extends StatefulWidget {

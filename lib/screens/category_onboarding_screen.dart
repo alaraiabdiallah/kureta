@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kureta_app/components/buttons.dart';
 import 'package:kureta_app/components/category_selector.dart';
+import 'package:kureta_app/data_sources/local_db.dart';
 import 'package:kureta_app/data_sources/mocks.dart';
 import 'screens.dart';
 
@@ -14,7 +15,10 @@ class _CategoryOnboardingScreen extends State<CategoryOnboardingScreen> {
   final _categories = categoriesMock;
   List<String> _selectedCategories;
 
-  onNextButtonPressed(){
+  onNextButtonPressed() async {
+   var source = SavedCategorySource();
+   await source.clearAll();
+   await source.saveFromListString(_selectedCategories);
    print(_selectedCategories);
    Navigator.push(
      context,

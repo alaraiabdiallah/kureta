@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:kureta_app/data_sources/local_db.dart';
 import 'package:kureta_app/screens/screens.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -14,15 +15,22 @@ class _SplashScreen extends State<SplashScreen> {
 
   @override
   void initState() {
-    _timer = new Timer(Duration(seconds: 2), (){
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => CategoryOnboardingScreen()));
+    SavedCategorySource().getAll().then((data){
+      List categories = data;
+      if(categories.length > 0)
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => HomeScreen()));
+      else
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => CategoryOnboardingScreen()));
     });
+//    _timer = new Timer(Duration(seconds: 2), () async {
+//
+//    });
     super.initState();
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+//    _timer.cancel();
     super.dispose();
   }
 
