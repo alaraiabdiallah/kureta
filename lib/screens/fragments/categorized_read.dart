@@ -70,6 +70,7 @@ class _CategorizedRead extends State<CategorizedRead> {
                       return ReadListItem(
                         title: article.title,
                         category: null,
+                        imageUrl: article.imageUrl,
                         onTap: (){
                           var readScreen = ReadScreen(title: article.title, content: article.content, category: article.category, imageUrl: article.imageUrl);
                           Navigator.push(context,

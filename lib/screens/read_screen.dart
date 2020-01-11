@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:html/dom.dart' as dom;
+
 
 class ReadScreen extends StatefulWidget {
 
@@ -64,7 +67,18 @@ class _ReadScreen extends State<ReadScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20,10,20,10),
-                  child: Text(widget.content, style: TextStyle(fontSize: 18),),
+                  child: Html(
+                      data:widget.content,
+                      defaultTextStyle: TextStyle(fontSize: 17),
+                      customTextAlign: (dom.Node node) {
+                         if (node is dom.Element) {
+                          switch (node.localName) {
+                            case "p":
+                             return TextAlign.justify;
+                         }
+                        }
+                      },
+                  ),
                 )
               ],
             ),

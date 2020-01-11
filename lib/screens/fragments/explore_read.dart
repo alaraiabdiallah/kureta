@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:kureta_app/components/reads.dart';
 import 'package:kureta_app/data_sources/mocks.dart';
+import 'package:kureta_app/models/article.dart';
 
 import '../screens.dart';
 
@@ -12,7 +14,7 @@ class ExploreRead extends StatefulWidget {
 
 class _ExploreRead extends State<ExploreRead> {
 
-  String _selected;
+  String _selected = categoriesMock[0];
 
   Widget _selectorItem({String title,String imageUrl = 'https://placeimg.com/640/480/any',bool active = false, Function onTap}){
     return GestureDetector(
@@ -70,21 +72,34 @@ class _ExploreRead extends State<ExploreRead> {
           Expanded(
            child: Container(
              padding: const EdgeInsets.fromLTRB(15,0,8,8),
-             child: ListView(
-               children: <Widget>[
-                 ...articleMocks2.map((article){
-                   return ReadListItem(
-                     title: article.title,
-                     category: article.category,
-                     onTap: (){
-                       var readScreen = ReadScreen(title: article.title, content: article.content, category: article.category, imageUrl: article.imageUrl);
-                       Navigator.push(context,
-                         MaterialPageRoute(builder: (context) => readScreen),
-                       );
-                     },
-                   );
-                 }).toList()
-               ],
+             child: StreamBuilder(
+               stream: Firestore.instance.collection('articles').where("category",isEqualTo: _selected).snapshots(),
+               builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting: return Center(child: CircularProgressIndicator());
+                  default:
+                    if(snapshot.data.documents.length < 1) return Center(child: Text("Tidak ada article yang dapat ditampilkan."),);
+                    List<Article> articles = snapshot.data.documents.map((doc) => Article.fromFirebase(doc)).toList();
+                    return ListView(
+                      children: <Widget>[
+                        ...articles.map((article){
+                          return ReadListItem(
+                            title: article.title,
+                            category: article.category,
+                            imageUrl: article.imageUrl,
+                            onTap: (){
+                              var readScreen = ReadScreen(title: article.title, content: article.content, category: article.category, imageUrl: article.imageUrl);
+                              Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => readScreen),
+                              );
+                            },
+                          );
+                        }).toList()
+                      ],
+                    );
+                }
+
+               }
              ),
            ),
           )
