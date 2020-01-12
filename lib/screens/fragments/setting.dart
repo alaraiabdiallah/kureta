@@ -1,16 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:kureta_app/components/buttons.dart';
+import 'package:kureta_app/services/auth_service.dart';
 import '../screens.dart';
 
 class Setting extends StatefulWidget {
+  final String uid;
+  final AuthService authService;
+  const Setting({Key key, this.uid, this.authService}) : super(key: key);
   @override
   _Setting createState() => _Setting();
 
 }
 
 class _Setting extends State<Setting> {
+
   @override
   Widget build(BuildContext context) {
+
+    _unauthView(){
+      return Container(
+        padding: EdgeInsets.symmetric(horizontal: 30),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: Colors.grey.withOpacity(0.10)
+        ),
+        width: double.infinity,
+        height: 250,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text("Need login to edit your category", style: TextStyle(fontSize: 22), textAlign: TextAlign.center,),
+            SizedBox(height: 30),
+            KuretaButton(
+              text: "LOGIN ACCOUNT",
+              onPressed: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                );
+              },
+            )
+          ],
+        ),
+      );
+    }
+
+    _authView(){
+      return Container();
+    }
+
     return ListView(
       children: <Widget>[
         Padding(
@@ -20,31 +58,18 @@ class _Setting extends State<Setting> {
             children: <Widget>[
               Text("Your category", style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold)),
               SizedBox(height: 20),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 30),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: Colors.grey.withOpacity(0.10)
-                ),
-                width: double.infinity,
-                height: 250,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text("Need login to edit your category", style: TextStyle(fontSize: 22), textAlign: TextAlign.center,),
-                    SizedBox(height: 30),
-                    KuretaButton(
-                      text: "LOGIN ACCOUNT",
-                      onPressed: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => LoginScreen()),
-                        );
-                      },
-                    )
-                  ],
-                ),
-              )
+              if(widget.uid == null)...[
+                _unauthView()
+              ],
+              if(widget.uid != null)...[
+                _authView(),
+                KuretaButton(
+                  text: "LOGOUT",
+                  onPressed: (){
+                    widget.authService.logout();
+                  },
+                )
+              ]
             ],
           ),
         )
