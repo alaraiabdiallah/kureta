@@ -1,5 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:kureta_app/components/buttons.dart';
+import 'package:kureta_app/components/category_selector.dart';
+import 'package:kureta_app/data_sources/local_db.dart';
 import 'package:kureta_app/services/auth_service.dart';
 import '../screens.dart';
 
@@ -46,7 +49,36 @@ class _Setting extends State<Setting> {
     }
 
     _authView(){
-      return Container();
+      return FutureBuilder(
+          future: SavedCategorySource().getAll(),
+          builder: (context, AsyncSnapshot snapshot){
+            if(snapshot.connectionState == ConnectionState.waiting)
+              return Center(child: CircularProgressIndicator());
+            if(!snapshot.hasData || snapshot.data.length < 1) return Container();
+            List<String> categories = List<String>();
+            snapshot.data.forEach((d){
+              categories.add(d);
+            });
+            return Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  CategorySelector(categories: categories),
+                  SizedBox(height: 10,),
+                  KuretaButton(
+                    text: "Edit",
+                    onPressed: (){
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CategoryOnboardingScreen(isEdit: true)),
+                      );
+                    },
+                  )
+                ],
+              ),
+            );
+          }
+      );
     }
 
     return ListView(
@@ -63,6 +95,7 @@ class _Setting extends State<Setting> {
               ],
               if(widget.uid != null)...[
                 _authView(),
+                SizedBox(height: 10,),
                 KuretaButton(
                   text: "LOGOUT",
                   onPressed: (){

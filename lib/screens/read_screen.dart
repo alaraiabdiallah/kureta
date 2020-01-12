@@ -85,22 +85,11 @@ class _ReadScreen extends State<ReadScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.black,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.share),
-              title: Text("Reading")
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.bookmark_border),
-              title: Text("Search")
-          )
-        ],
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.bookmark_border),
+        onPressed: (){
+
+        },
       ),
     );
   }

@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 class CategorySelector extends StatefulWidget {
   final List<String> categories;
   final Function onSelected;
-  const CategorySelector({Key key, this.categories, this.onSelected}) : super(key: key);
+  final List<String> selected;
+  const CategorySelector({Key key, this.categories, this.selected, this.onSelected}) : super(key: key);
   @override
   _CategorySelector createState() => _CategorySelector();
 
@@ -13,27 +14,29 @@ class CategorySelector extends StatefulWidget {
 class _CategorySelector extends State<CategorySelector> {
 
   List<String> categories;
-  List<String> selected = [];
+  List<String> selected;
 
   @override
   void initState() {
     categories = widget.categories;
+    selected = widget.selected == null? List<String>(): widget.selected;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    print(selected);
     return Wrap(
       children: <Widget>[
         ...categories.map((category){
           bool isSelected = selected.contains(category);
-          return  CategoryItem(name: category, isSelected: isSelected, onTap: (){
+          return  CategoryItem(name: category, isSelected: isSelected, onTap: widget.onSelected != null ?(){
             setState(() {
               if(isSelected) selected = selected.where((d) => d != category).toList();
               else selected.add(category);
             });
             widget.onSelected(selected);
-          });
+          }: null);
         }).toList()
       ],
     );
