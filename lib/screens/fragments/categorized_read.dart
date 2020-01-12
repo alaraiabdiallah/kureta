@@ -36,9 +36,8 @@ class _CategorizedRead extends State<CategorizedRead> {
                     articles: snapshot.data.documents.map((doc) => Article.fromFirebase(doc)).toList(),
                     onItemTap: (Article item){
                       print(item.title);
-                      var readScreen = ReadScreen(title: item.title, content: item.content, category: item.category, imageUrl: item.imageUrl);
                       Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => readScreen),
+                        MaterialPageRoute(builder: (context) => ReadScreen(article: item,)),
                       );
                     }
                 );
@@ -69,9 +68,8 @@ class _CategorizedRead extends State<CategorizedRead> {
                         category: null,
                         imageUrl: article.imageUrl,
                         onTap: (){
-                          var readScreen = ReadScreen(title: article.title, content: article.content, category: article.category, imageUrl: article.imageUrl);
                           Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => readScreen),
+                            MaterialPageRoute(builder: (context) => ReadScreen(article: article)),
                           );
                         },
                       );

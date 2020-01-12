@@ -88,9 +88,8 @@ class _ExploreRead extends State<ExploreRead> {
                             category: article.category,
                             imageUrl: article.imageUrl,
                             onTap: (){
-                              var readScreen = ReadScreen(title: article.title, content: article.content, category: article.category, imageUrl: article.imageUrl);
                               Navigator.push(context,
-                                MaterialPageRoute(builder: (context) => readScreen),
+                                MaterialPageRoute(builder: (context) => ReadScreen(article: article)),
                               );
                             },
                           );

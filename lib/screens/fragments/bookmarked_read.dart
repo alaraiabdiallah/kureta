@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kureta_app/components/reads.dart';
+import 'package:kureta_app/data_sources/local_db.dart';
 import 'package:kureta_app/data_sources/mocks.dart';
+import 'package:kureta_app/models/article.dart';
 import '../screens.dart';
 
 class BookmarkedRead extends StatefulWidget {
@@ -12,31 +14,40 @@ class BookmarkedRead extends StatefulWidget {
 class _BookmarkedRead extends State<BookmarkedRead> {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.fromLTRB(25,10,25,10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return FutureBuilder<List<Article>>(
+        future: BookmarkSource().getAll(),
+        builder: (BuildContext context, AsyncSnapshot<List<Article>> snapshot){
+          if(snapshot.connectionState == ConnectionState.waiting)
+            return Center(child: CircularProgressIndicator());
+          if(!snapshot.hasData || snapshot.data.length < 1) return Center(child: Text("Tidak ada artikel yang ditandai."),);
+          return ListView(
             children: <Widget>[
-              ...articleMocks.map((article){
-                return ReadListItem(
-                  title: article.title,
-                  category: article.category,
-                  onTap: (){
-                    var readScreen = ReadScreen(title: article.title, content: article.content, category: article.category, imageUrl: article.imageUrl);
-                    Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => readScreen),
-                    );
-                  },
-                );
-              }).toList(),
-            ],
-          ),
-        )
+              Padding(
+                  padding: const EdgeInsets.fromLTRB(25,10,25,10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      ...snapshot.data.map((article){
+                        return ReadListItem(
+                          title: article.title,
+                          category: article.category,
+                          imageUrl: article.imageUrl,
+                          onTap: (){
+                            Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => ReadScreen(article: article)),
+                            );
+                          },
+                        );
+                      }).toList(),
+                    ],
+                  )
+              )
 
-      ],
+            ],
+          );
+        }
     );
   }
 
 }
+
