@@ -12,10 +12,12 @@ class BookmarkedRead extends StatefulWidget {
 }
 
 class _BookmarkedRead extends State<BookmarkedRead> {
+
+  BookmarkSource bookmarkSource =  BookmarkSource();
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Article>>(
-        future: BookmarkSource().getAll(),
+        future: bookmarkSource.getAll(),
         builder: (BuildContext context, AsyncSnapshot<List<Article>> snapshot){
           if(snapshot.connectionState == ConnectionState.waiting)
             return Center(child: CircularProgressIndicator());

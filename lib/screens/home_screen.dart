@@ -17,10 +17,6 @@ class _HomeScreen extends State<HomeScreen> {
   List<String> titles = ["For you", "Explore", "Bookmark", "Setting"];
   AuthService _authService = AuthService();
   String _uid;
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void didChangeDependencies() {
