@@ -4,8 +4,7 @@ import 'package:kureta_app/screens/fragments/categorized_read.dart';
 import 'package:kureta_app/screens/fragments/bookmarked_read.dart';
 import 'package:kureta_app/screens/fragments/explore_read.dart';
 import 'package:kureta_app/screens/fragments/setting.dart';
-import 'package:kureta_app/services/auth_service.dart';
-import 'screens.dart';
+
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -15,16 +14,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreen extends State<HomeScreen> {
   int _currentIndex = 0;
   List<String> titles = ["For you", "Explore", "Bookmark", "Setting"];
-  AuthService _authService = AuthService();
-  String _uid;
 
-  @override
-  void didChangeDependencies() {
-    _authService.user.listen((user) {
-      _uid = user == null ? null : user.uid;
-    });
-    super.didChangeDependencies();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +27,7 @@ class _HomeScreen extends State<HomeScreen> {
           CategorizedRead(),
           ExploreRead(),
           BookmarkedRead(),
-          Setting(uid:_uid, authService:_authService)
+          Setting()
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
@@ -46,10 +36,6 @@ class _HomeScreen extends State<HomeScreen> {
         selectedItemColor: Color(0xff3498D8),
         currentIndex: _currentIndex,
         onTap: (index){
-          if(index == 3 && _uid == null)
-            Navigator.push(context,
-              MaterialPageRoute(builder: (context) => LoginScreen()),
-            );
           setState(() => _currentIndex = index);
         },
         items: [

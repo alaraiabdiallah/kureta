@@ -3,6 +3,7 @@ import 'package:kureta_app/components/buttons.dart';
 import 'package:kureta_app/components/form_input.dart';
 import 'package:kureta_app/screens/register_screen.dart';
 import 'package:kureta_app/services/auth_service.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -16,21 +17,29 @@ class _LoginScreen extends State<LoginScreen> {
   AuthService _authService = AuthService();
   bool _loading = false;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  ProgressDialog _pr;
   onLoginButtonPressed() async {
     String email = this._emailTextCtrl.text;
     String password = this._passwordTextCtrl.text;
     try{
       setState(() =>_loading = true);
-      _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("On login...")));
+      _pr.show();
       var login = await _authService.login(email: email,password: password);
       if(login is Exception) throw login;
+      _pr.dismiss();
       setState(() =>_loading = false);
       Navigator.pop(context);
     }catch(e){
+      _pr.dismiss();
       setState(() =>_loading = false);
       _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(e.message)));
     }
+  }
+
+  @override
+  void initState() {
+    _pr = ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: false);
+    super.initState();
   }
 
   @override

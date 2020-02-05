@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_stetho/flutter_stetho.dart';
 import 'package:kureta_app/screens/screens.dart';
 
 void main() async{
-  Stetho.initialize();
   runApp(MyApp());
 }
 

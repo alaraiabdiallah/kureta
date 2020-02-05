@@ -7,9 +7,6 @@ import 'package:kureta_app/services/auth_service.dart';
 import '../screens.dart';
 
 class Setting extends StatefulWidget {
-  final String uid;
-  final AuthService authService;
-  const Setting({Key key, this.uid, this.authService}) : super(key: key);
   @override
   _Setting createState() => _Setting();
 
@@ -18,6 +15,8 @@ class Setting extends StatefulWidget {
 class _Setting extends State<Setting> {
 
   SavedCategorySource _scs = SavedCategorySource();
+  String _uid;
+  AuthService _authService = AuthService();
   _unauthView(){
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 30),
@@ -80,6 +79,14 @@ class _Setting extends State<Setting> {
   }
 
   @override
+  void didChangeDependencies() {
+    _authService.user.listen((user) {
+      _uid = user == null ? null : user.uid;
+    });
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     return ListView(
@@ -91,16 +98,19 @@ class _Setting extends State<Setting> {
             children: <Widget>[
               Text("Your category", style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold)),
               SizedBox(height: 20),
-              if(widget.uid == null)...[
+              if(_uid == null)...[
                 _unauthView()
               ],
-              if(widget.uid != null)...[
+              if(_uid != null)...[
                 _authView(),
                 SizedBox(height: 10,),
                 KuretaButton(
                   text: "LOGOUT",
-                  onPressed: (){
-                    widget.authService.logout();
+                  onPressed: () async {
+                    await _authService.logout();
+                    setState(() {
+                      _uid = null;
+                    });
                   },
                 )
               ]

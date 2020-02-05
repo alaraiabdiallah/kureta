@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kureta_app/components/buttons.dart';
 import 'package:kureta_app/components/form_input.dart';
 import 'package:kureta_app/services/auth_service.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -17,22 +18,31 @@ class _RegisterScreen extends State<RegisterScreen> {
   bool _loading = false;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-
+  ProgressDialog _pr;
   onRegisterButtonPressed() async {
     String fullname = this._fullNameTextCtrl.text;
     String email = this._emailTextCtrl.text;
     String password = this._passwordTextCtrl.text;
     try{
       setState(() =>_loading = true);
-      _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text("On register...")));
+      _pr.show();
       var register = await _authService.registerUser(fullname: fullname,email: email,password: password);
       if(register is Exception) throw register;
+      _pr.dismiss();
       setState(() =>_loading = false);
       Navigator.pop(context);
+      Navigator.pop(context);
     }catch(e){
+      _pr.dismiss();
       setState(() =>_loading = false);
       _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(e.message)));
     }
+  }
+
+  @override
+  void initState() {
+    _pr = ProgressDialog(context,type: ProgressDialogType.Normal, isDismissible: false);
+    super.initState();
   }
 
   @override
